@@ -125,6 +125,32 @@ int __MsgFunc_GameMode(const char *pszName, int iSize, void *pbuf )
 	return gHUD.MsgFunc_GameMode( pszName, iSize, pbuf );
 }
 
+#if defined ( VISITORS_CLIENT_DLL )
+int __MsgFunc_Firstperson(const char *pszName, int iSize, void *pbuf)
+{
+	gHUD.MsgFunc_Firstperson(pszName, iSize, pbuf);
+	return 1;
+}
+
+int __MsgFunc_Thirdperson(const char *pszName, int iSize, void *pbuf)
+{
+	gHUD.MsgFunc_Thirdperson(pszName, iSize, pbuf);
+	return 1;
+}
+
+int __MsgFunc_PlayerModel(const char *pszName, int iSize, void *pbuf)
+{
+	gHUD.MsgFunc_PlayerModel(pszName, iSize, pbuf);
+	return 1;
+}
+
+int __MsgFunc_DeathCam(const char *pszName, int iSize, void *pbuf)
+{
+	gHUD.MsgFunc_DeathCam(pszName, iSize, pbuf);
+	return 1;
+}
+#endif // defined ( VISITORS_CLIENT_DLL )
+
 // TFFree Command Menu
 void __CmdFunc_OpenCommandMenu(void)
 {
@@ -290,6 +316,12 @@ void CHud :: Init( void )
 	HOOK_MESSAGE( ViewMode );
 	HOOK_MESSAGE( SetFOV );
 	HOOK_MESSAGE( Concuss );
+#if defined ( VISITORS_CLIENT_DLL )
+	HOOK_MESSAGE( Firstperson );
+	HOOK_MESSAGE( Thirdperson );
+	HOOK_MESSAGE( PlayerModel );
+	HOOK_MESSAGE( DeathCam );
+#endif
 
 	// TFFree CommandMenu
 	HOOK_COMMAND( "+commandmenu", OpenCommandMenu );

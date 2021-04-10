@@ -2169,6 +2169,11 @@ public:
 	float m_acceleration;
 	float m_deceleration;
 	int	  m_state;
+
+#if defined ( VISITORS_DLL )
+	BOOL m_fIsMapCredits;
+	float m_flMapCreditsTime;
+#endif
 	
 };
 LINK_ENTITY_TO_CLASS( trigger_camera, CTriggerCamera );
@@ -2189,6 +2194,10 @@ TYPEDESCRIPTION	CTriggerCamera::m_SaveData[] =
 	DEFINE_FIELD( CTriggerCamera, m_acceleration, FIELD_FLOAT ),
 	DEFINE_FIELD( CTriggerCamera, m_deceleration, FIELD_FLOAT ),
 	DEFINE_FIELD( CTriggerCamera, m_state, FIELD_INTEGER ),
+#if defined ( VISITORS_DLL )
+	DEFINE_FIELD(CTriggerCamera, m_fIsMapCredits, FIELD_BOOLEAN),
+	DEFINE_FIELD(CTriggerCamera, m_flMapCreditsTime, FIELD_TIME),
+#endif
 };
 
 IMPLEMENT_SAVERESTORE(CTriggerCamera,CBaseDelay);
@@ -2205,6 +2214,10 @@ void CTriggerCamera::Spawn( void )
 		m_acceleration = 500;
 	if ( m_deceleration == 0 )
 		m_deceleration = 500;
+
+#if defined ( VISITORS_DLL )
+	m_fIsMapCredits = FALSE;
+#endif
 }
 
 
@@ -2258,6 +2271,10 @@ void CTriggerCamera::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYP
 	m_flReturnTime = gpGlobals->time + m_flWait;
 	pev->speed = m_initialSpeed;
 	m_targetSpeed = m_initialSpeed;
+#if defined ( VISITORS_DLL )
+	m_fIsMapCredits = FStrEq(STRING(gpGlobals->mapname), "vis_credits") ? TRUE : FALSE;
+	m_flMapCreditsTime = gpGlobals->time + 15.0f;
+#endif // defined ( VISITORS_DLL )
 
 	if (FBitSet (pev->spawnflags, SF_CAMERA_PLAYER_TARGET ) )
 	{
@@ -2273,7 +2290,6 @@ void CTriggerCamera::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYP
 	{
 		return;
 	}
-
 
 	if (FBitSet (pev->spawnflags, SF_CAMERA_PLAYER_TAKECONTROL ) )
 	{
@@ -2330,7 +2346,11 @@ void CTriggerCamera::FollowTarget( )
 	if (m_hPlayer == NULL)
 		return;
 
+#if defined ( VISITORS_DLL )
+	if (m_hTarget == NULL || m_flReturnTime < gpGlobals->time || (m_fIsMapCredits && m_flMapCreditsTime < gpGlobals->time))
+#else
 	if (m_hTarget == NULL || m_flReturnTime < gpGlobals->time)
+#endif // defined ( VISITORS_DLL )
 	{
 		if (m_hPlayer->IsAlive( ))
 		{

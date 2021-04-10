@@ -188,6 +188,12 @@ int gmsgTeamNames = 0;
 int gmsgStatusText = 0;
 int gmsgStatusValue = 0; 
 
+#if defined ( VISITORS_DLL )
+int gmsgFirstperson = 0;
+int gmsgThirdperson = 0;
+int gmsgPlayerModel = 0;
+int gmsgDeathCam = 0;
+#endif
 
 
 void LinkUserMessages( void )
@@ -235,6 +241,13 @@ void LinkUserMessages( void )
 
 	gmsgStatusText = REG_USER_MSG("StatusText", -1);
 	gmsgStatusValue = REG_USER_MSG("StatusValue", 3); 
+
+#if defined ( VISITORS_DLL )
+	gmsgFirstperson = REG_USER_MSG("Firstperson", 0);
+	gmsgThirdperson = REG_USER_MSG("Thirdperson", 0);
+	gmsgPlayerModel = REG_USER_MSG("PlayerModel", -1);
+	gmsgDeathCam = REG_USER_MSG("DeathCam", 1);
+#endif
 
 }
 
@@ -366,8 +379,10 @@ void CBasePlayer :: DeathSound( void )
 		break;
 	}
 
+#if !defined ( VISITORS_DLL )
 	// play one of the suit death alarms
 	EMIT_GROUPNAME_SUIT(ENT(pev), "HEV_DEAD");
+#endif // !defined ( VISITORS_DLL )
 }
 
 // override takehealth
@@ -551,17 +566,21 @@ int CBasePlayer :: TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, 
 
 		if (bitsDamage & DMG_CLUB)
 		{
+#if !defined ( VISITORS_DLL )
 			if (fmajor)
 				SetSuitUpdate("!HEV_DMG4", FALSE, SUIT_NEXT_IN_30SEC);	// minor fracture
+#endif
 			bitsDamage &= ~DMG_CLUB;
 			ffound = TRUE;
 		}
 		if (bitsDamage & (DMG_FALL | DMG_CRUSH))
 		{
+#if !defined ( VISITORS_DLL )
 			if (fmajor)
 				SetSuitUpdate("!HEV_DMG5", FALSE, SUIT_NEXT_IN_30SEC);	// major fracture
 			else
 				SetSuitUpdate("!HEV_DMG4", FALSE, SUIT_NEXT_IN_30SEC);	// minor fracture
+#endif
 	
 			bitsDamage &= ~(DMG_FALL | DMG_CRUSH);
 			ffound = TRUE;
@@ -569,8 +588,10 @@ int CBasePlayer :: TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, 
 		
 		if (bitsDamage & DMG_BULLET)
 		{
+#if !defined ( VISITORS_DLL )
 			if (m_lastDamageAmount > 5)
 				SetSuitUpdate("!HEV_DMG6", FALSE, SUIT_NEXT_IN_30SEC);	// blood loss detected
+#endif
 			//else
 			//	SetSuitUpdate("!HEV_DMG0", FALSE, SUIT_NEXT_IN_30SEC);	// minor laceration
 			
@@ -580,10 +601,12 @@ int CBasePlayer :: TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, 
 
 		if (bitsDamage & DMG_SLASH)
 		{
+#if !defined ( VISITORS_DLL )
 			if (fmajor)
 				SetSuitUpdate("!HEV_DMG1", FALSE, SUIT_NEXT_IN_30SEC);	// major laceration
 			else
 				SetSuitUpdate("!HEV_DMG0", FALSE, SUIT_NEXT_IN_30SEC);	// minor laceration
+#endif
 
 			bitsDamage &= ~DMG_SLASH;
 			ffound = TRUE;
@@ -591,36 +614,46 @@ int CBasePlayer :: TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, 
 		
 		if (bitsDamage & DMG_SONIC)
 		{
+#if !defined ( VISITORS_DLL )
 			if (fmajor)
 				SetSuitUpdate("!HEV_DMG2", FALSE, SUIT_NEXT_IN_1MIN);	// internal bleeding
+#endif
 			bitsDamage &= ~DMG_SONIC;
 			ffound = TRUE;
 		}
 
 		if (bitsDamage & (DMG_POISON | DMG_PARALYZE))
 		{
+#if !defined ( VISITORS_DLL )
 			SetSuitUpdate("!HEV_DMG3", FALSE, SUIT_NEXT_IN_1MIN);	// blood toxins detected
+#endif
 			bitsDamage &= ~(DMG_POISON | DMG_PARALYZE);
 			ffound = TRUE;
 		}
 
 		if (bitsDamage & DMG_ACID)
 		{
+#if !defined ( VISITORS_DLL )
 			SetSuitUpdate("!HEV_DET1", FALSE, SUIT_NEXT_IN_1MIN);	// hazardous chemicals detected
+#endif
 			bitsDamage &= ~DMG_ACID;
 			ffound = TRUE;
 		}
 
 		if (bitsDamage & DMG_NERVEGAS)
 		{
+#if !defined ( VISITORS_DLL )
 			SetSuitUpdate("!HEV_DET0", FALSE, SUIT_NEXT_IN_1MIN);	// biohazard detected
+#endif
 			bitsDamage &= ~DMG_NERVEGAS;
 			ffound = TRUE;
 		}
 
 		if (bitsDamage & DMG_RADIATION)
 		{
+#if !defined ( VISITORS_DLL )
 			SetSuitUpdate("!HEV_DET2", FALSE, SUIT_NEXT_IN_1MIN);	// radiation detected
+#endif
 			bitsDamage &= ~DMG_RADIATION;
 			ffound = TRUE;
 		}
@@ -635,17 +668,20 @@ int CBasePlayer :: TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, 
 
 	if (fTookDamage && !ftrivial && fmajor && flHealthPrev >= 75) 
 	{
+#if !defined ( VISITORS_DLL )
 		// first time we take major damage...
 		// turn automedic on if not on
 		SetSuitUpdate("!HEV_MED1", FALSE, SUIT_NEXT_IN_30MIN);	// automedic on
 
 		// give morphine shot if not given recently
 		SetSuitUpdate("!HEV_HEAL7", FALSE, SUIT_NEXT_IN_30MIN);	// morphine shot
+#endif
 	}
 	
 	if (fTookDamage && !ftrivial && fcritical && flHealthPrev < 75)
 	{
 
+#if !defined ( VISITORS_DLL )
 		// already took major damage, now it's critical...
 		if (pev->health < 6)
 			SetSuitUpdate("!HEV_HLTH3", FALSE, SUIT_NEXT_IN_10MIN);	// near death
@@ -655,11 +691,13 @@ int CBasePlayer :: TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, 
 		// give critical health warnings
 		if (!RANDOM_LONG(0,3) && flHealthPrev < 50)
 			SetSuitUpdate("!HEV_DMG7", FALSE, SUIT_NEXT_IN_5MIN); //seek medical attention
+#endif
 	}
 
 	// if we're taking time based damage, warn about its continuing effects
 	if (fTookDamage && (bitsDamageType & DMG_TIMEBASED) && flHealthPrev < 75)
 		{
+#if !defined ( VISITORS_DLL )
 			if (flHealthPrev < 50)
 			{
 				if (!RANDOM_LONG(0,3))
@@ -667,6 +705,7 @@ int CBasePlayer :: TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, 
 			}
 			else
 				SetSuitUpdate("!HEV_HLTH1", FALSE, SUIT_NEXT_IN_10MIN);	// health dropping
+#endif
 		}
 
 	return fTookDamage;
@@ -924,6 +963,20 @@ void CBasePlayer::Killed( entvars_t *pevAttacker, int iGib )
 		WRITE_BYTE(0);
 	MESSAGE_END();
 
+#if defined ( VISITORS_DLL )
+	//
+	// HL: Visitors - Go to thirdperson.
+	//
+	MESSAGE_BEGIN(MSG_ONE, gmsgThirdperson, NULL, pev);
+	MESSAGE_END();
+
+	//
+	// HL: Visitors - Enable Death camera.
+	//
+	MESSAGE_BEGIN(MSG_ONE, gmsgDeathCam, NULL, pev);
+		WRITE_BYTE(1);					// Enable/Disable
+	MESSAGE_END();
+#endif
 
 	// UNDONE: Put this in, but add FFADE_PERMANENT and make fade time 8.8 instead of 4.12
 	// UTIL_ScreenFade( edict(), Vector(128,0,0), 6, 15, 255, FFADE_OUT | FFADE_MODULATE );
@@ -2138,7 +2191,9 @@ void CBasePlayer::CheckTimeBasedDamage()
 					{
 						m_rgbTimeBasedDamage[i] = 0;
 						m_rgItems[ITEM_ANTIDOTE]--;
+#if !defined ( VISITORS_DLL )
 						SetSuitUpdate("!HEV_HEAL4", FALSE, SUIT_REPEAT_OK);
+#endif
 					}
 				}
 
@@ -2900,6 +2955,7 @@ void CBasePlayer::Spawn( void )
 	g_pGameRules->GetPlayerSpawnSpot( this );
 
     SET_MODEL(ENT(pev), "models/player.mdl");
+
     g_ulModelIndexPlayer = pev->modelindex;
 	pev->sequence		= LookupActivity( ACT_IDLE );
 
@@ -3368,7 +3424,11 @@ void CBasePlayer :: FlashlightTurnOn( void )
 		return;
 	}
 
+#if defined ( VISITORS_DLL )
+	if ( (pev->weapons & (1<<WEAPON_FLASHLIGHT)) )
+#else
 	if ( (pev->weapons & (1<<WEAPON_SUIT)) )
+#endif
 	{
 		EMIT_SOUND_DYN( ENT(pev), CHAN_WEAPON, SOUND_FLASHLIGHT_ON, 1.0, ATTN_NORM, 0, PITCH_NORM );
 		SetBits(pev->effects, EF_DIMLIGHT);
@@ -3561,6 +3621,13 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 		GiveNamedItem( "weapon_snark" );
 		GiveNamedItem( "weapon_hornetgun" );
 #endif
+#if defined ( VISITORS_DLL )
+		GiveNamedItem("item_flashlight");
+		GiveNamedItem("item_bodyarmour");
+		GiveNamedItem("weapon_pipe");
+		GiveNamedItem("weapon_sniper");
+#endif // defined ( VISITORS_DLL )
+
 		gEvilImpulse101 = FALSE;
 		break;
 
@@ -3957,6 +4024,28 @@ void CBasePlayer :: UpdateClientData( void )
 			WRITE_BYTE( 0 );
 		MESSAGE_END();
 
+#if defined ( VISITORS_DLL )
+		//
+		// HL: Visitors - Go to firstperson.
+		//
+		MESSAGE_BEGIN( MSG_ONE, gmsgFirstperson, NULL, pev );
+		MESSAGE_END();
+
+		//
+		// HL: Visitors - Disable Death camera.
+		//
+		MESSAGE_BEGIN(MSG_ONE, gmsgDeathCam, NULL, pev);
+			WRITE_BYTE(0),
+		MESSAGE_END();
+
+		//
+		// HL: Visitors - Fix up player model.
+		//
+		MESSAGE_BEGIN(MSG_ONE, gmsgPlayerModel, NULL, pev);
+			WRITE_STRING("player");
+		MESSAGE_END();
+#endif
+
 		if ( !m_fGameHUDInitialized )
 		{
 			MESSAGE_BEGIN( MSG_ONE, gmsgInitHUD, NULL, pev );
@@ -3977,6 +4066,16 @@ void CBasePlayer :: UpdateClientData( void )
 
 		InitStatusBar();
 	}
+
+#if defined ( VISITORS_DLL )
+	//
+	// HL: Visitors - Give suit to toggle hud on map vis07 (Security system failed)
+	//
+	if (!(pev->weapons & (1 << WEAPON_SUIT)) && FStrEq(STRING(gpGlobals->mapname), "vis07"))
+	{
+		pev->weapons |= (1 << WEAPON_SUIT);
+	}
+#endif // defined ( VISITORS_DLL )
 
 	if ( m_iHideHUD != m_iClientHideHUD )
 	{

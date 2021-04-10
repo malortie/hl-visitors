@@ -2883,7 +2883,18 @@ void PM_CheckParamters( void )
 	}
 	else
 	{
+#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 		VectorCopy( pmove->oldangles, pmove->angles );
+		//
+		// HL: Visitors - Do not allow rotations while dead. Since this mod features a dead camera,
+		//				  we must ensure not to update angles, otherwise player models would look
+		//				  like they 'jitter' around.			
+		//
+		pmove->angles[YAW] = 0;
+		pmove->angles[PITCH] = 90;
+#else
+		VectorCopy( pmove->oldangles, pmove->angles );
+#endif // defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 	}
 
 	// Set dead player view_offset

@@ -74,6 +74,11 @@ void EV_SnarkFire( struct event_args_s *args  );
 
 
 void EV_TrainPitchAdjust( struct event_args_s *args );
+
+#if defined ( VISITORS_CLIENT_DLL )
+void EV_Pipe(struct event_args_s *args);
+void EV_FireSniper(struct event_args_s *args);
+#endif
 }
 
 #define VECTOR_CONE_1DEGREES Vector( 0.00873, 0.00873, 0.00873 )
@@ -295,6 +300,9 @@ void EV_HLDM_DecalGunshot( pmtrace_t *pTrace, int iBulletType )
 		case BULLET_MONSTER_MP5:
 		case BULLET_PLAYER_BUCKSHOT:
 		case BULLET_PLAYER_357:
+#if defined ( VISITORS_CLIENT_DLL )
+		case BULLET_PLAYER_SNIPER:
+#endif
 		default:
 			// smoke and decal
 			EV_HLDM_GunshotDecalTrace( pTrace, EV_HLDM_DamageDecal( pe ) );
@@ -430,6 +438,9 @@ void EV_HLDM_FireBullets( int idx, float *forward, float *right, float *up, int 
 			
 				break;
 			case BULLET_PLAYER_357:
+#if defined ( VISITORS_CLIENT_DLL )
+			case BULLET_PLAYER_SNIPER:
+#endif
 				
 				EV_HLDM_PlayTextureSound( idx, &tr, vecSrc, vecEnd, iBulletType );
 				EV_HLDM_DecalGunshot( &tr, iBulletType );
@@ -1702,3 +1713,128 @@ int EV_TFC_IsAllyTeam( int iTeam1, int iTeam2 )
 {
 	return 0;
 }
+
+#if defined ( VISITORS_CLIENT_DLL )
+
+//======================
+//	   PIPE START
+//======================
+
+enum pipe_e {
+	PIPE_IDLE1 = 0,
+	PIPE_DRAW,
+	PIPE_HOLSTER,
+	PIPE_ATTACK1HIT,
+	PIPE_ATTACK1MISS,
+	PIPE_ATTACK2MISS,
+	PIPE_ATTACK2HIT,
+	PIPE_ATTACK3MISS,
+	PIPE_ATTACK3HIT,
+	PIPE_IDLE2,
+	PIPE_IDLE3,
+};
+
+//Only predict the miss sounds, hit sounds are still played 
+//server side, so players don't get the wrong idea.
+void EV_Pipe(event_args_t *args)
+{
+	int idx;
+	vec3_t origin;
+	vec3_t angles;
+	vec3_t velocity;
+
+	idx = args->entindex;
+	VectorCopy(args->origin, origin);
+
+	//Play Swing sound
+	gEngfuncs.pEventAPI->EV_PlaySound(idx, origin, CHAN_WEAPON, "weapons/cbar_miss1.wav", 1, ATTN_NORM, 0, PITCH_NORM);
+
+	if (EV_IsLocal(idx))
+	{
+		gEngfuncs.pEventAPI->EV_WeaponAnimation(PIPE_ATTACK1MISS, 1);
+
+		switch ((g_iSwing++) % 3)
+		{
+		case 0:
+			gEngfuncs.pEventAPI->EV_WeaponAnimation(PIPE_ATTACK1MISS, 1); break;
+		case 1:
+			gEngfuncs.pEventAPI->EV_WeaponAnimation(PIPE_ATTACK2MISS, 1); break;
+		case 2:
+			gEngfuncs.pEventAPI->EV_WeaponAnimation(PIPE_ATTACK3MISS, 1); break;
+		}
+	}
+}
+//======================
+//	   PIPE END 
+//======================
+
+
+//======================
+//	   SNIPER START 
+//======================
+
+
+enum sniper_e {
+	SNIPER_IDLE1 = 0,
+	SNIPER_SHOOT1,
+	SNIPER_SHOOT2,
+	SNIPER_RELOAD,
+	SNIPER_DRAW,
+};
+
+void EV_FireSniper(event_args_t *args)
+{
+	int idx;
+	vec3_t origin;
+	vec3_t angles;
+	vec3_t velocity;
+
+	vec3_t vecSrc, vecAiming;
+	vec3_t up, right, forward;
+	float flSpread = 0.01;
+
+	idx = args->entindex;
+	VectorCopy(args->origin, origin);
+	VectorCopy(args->angles, angles);
+	VectorCopy(args->velocity, velocity);
+
+	AngleVectors(angles, forward, right, up);
+
+	if (EV_IsLocal(idx))
+	{
+		// Add muzzle flash to current weapon model
+		EV_MuzzleFlash();
+
+		switch (gEngfuncs.pfnRandomLong(0, 1))
+		{
+		case 0:
+			gEngfuncs.pEventAPI->EV_WeaponAnimation(SNIPER_SHOOT1, 0);
+			break;
+		case 1:
+			gEngfuncs.pEventAPI->EV_WeaponAnimation(SNIPER_SHOOT2, 0);
+			break;
+		}
+
+		V_PunchAxis(0, -10.0);
+	}
+
+	switch (gEngfuncs.pfnRandomLong(0, 1))
+	{
+	case 0:
+		gEngfuncs.pEventAPI->EV_PlaySound(idx, origin, CHAN_WEAPON, "weapons/sniper_fire1.wav", gEngfuncs.pfnRandomFloat(0.8, 0.9), ATTN_NORM, 0, PITCH_NORM);
+		break;
+	case 1:
+		gEngfuncs.pEventAPI->EV_PlaySound(idx, origin, CHAN_WEAPON, "weapons/sniper_fire2.wav", gEngfuncs.pfnRandomFloat(0.8, 0.9), ATTN_NORM, 0, PITCH_NORM);
+		break;
+	}
+
+	EV_GetGunPosition(args, vecSrc, origin);
+
+	VectorCopy(forward, vecAiming);
+
+	EV_HLDM_FireBullets(idx, forward, right, up, 1, vecSrc, vecAiming, 8192, BULLET_PLAYER_SNIPER, 0, 0, args->fparam1, args->fparam2);
+}
+//======================
+//	    SNIPER END 
+//======================
+#endif // VISITORS_CLIENT_DLL

@@ -1564,6 +1564,11 @@ Vector CBaseEntity::FireBulletsPlayer ( ULONG cShots, Vector vecSrc, Vector vecD
 			case BULLET_PLAYER_357:		
 				pEntity->TraceAttack(pevAttacker, gSkillData.plrDmg357, vecDir, &tr, DMG_BULLET); 
 				break;
+#if defined ( VISITORS_DLL )
+			case BULLET_PLAYER_SNIPER:
+				pEntity->TraceAttack(pevAttacker, gSkillData.plrDmg357 * 4, vecDir, &tr, DMG_BULLET);
+				break;
+#endif
 				
 			case BULLET_NONE: // FIX 
 				pEntity->TraceAttack(pevAttacker, 50, vecDir, &tr, DMG_CLUB);

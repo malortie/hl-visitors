@@ -41,6 +41,9 @@
 #include	"soundent.h"
 #include	"effects.h"
 #include	"customentity.h"
+#if defined ( VISITORS_DLL )
+#include	"hgrunt.h"
+#endif // defined ( VISITORS_DLL )
 
 int g_fGruntQuestion;				// true if an idle grunt asked a question. Cleared when someone answers.
 
@@ -120,6 +123,7 @@ enum
 //=========================================================
 #define bits_COND_GRUNT_NOFIRE	( bits_COND_SPECIAL1 )
 
+#if !defined ( VISITORS_DLL )
 class CHGrunt : public CSquadMonster
 {
 public:
@@ -186,6 +190,7 @@ public:
 
 	static const char *pGruntSentences[];
 };
+#endif // !defined ( VISITORS_DLL )
 
 LINK_ENTITY_TO_CLASS( monster_human_grunt, CHGrunt );
 
@@ -267,6 +272,12 @@ int CHGrunt::IRelationship ( CBaseEntity *pTarget )
 	{
 		return R_NM;
 	}
+#if defined ( VISITORS_DLL )
+	if (!FClassnameIs(pev, "monster_human_massassin") && FClassnameIs(pTarget->pev, "monster_human_massassin"))
+	{
+		return R_DL;
+	}
+#endif
 
 	return CSquadMonster::IRelationship( pTarget );
 }

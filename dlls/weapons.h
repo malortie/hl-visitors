@@ -62,6 +62,27 @@ public:
 #define ITEM_SECURITY		3
 #define ITEM_BATTERY		4
 
+#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
+#define WEAPON_NONE				0
+#define WEAPON_CROWBAR			1
+#define WEAPON_PIPE				2
+#define	WEAPON_GLOCK			3
+#define WEAPON_PYTHON			4
+#define WEAPON_MP5				5
+#define WEAPON_CHAINGUN			6
+#define WEAPON_CROSSBOW			7
+#define WEAPON_SNIPER			8
+#define WEAPON_SHOTGUN			9
+#define WEAPON_RPG				10
+#define WEAPON_GAUSS			11
+#define WEAPON_EGON				12
+#define WEAPON_HORNETGUN		13
+#define WEAPON_HANDGRENADE		14
+#define WEAPON_TRIPMINE			15
+#define	WEAPON_SATCHEL			16
+#define	WEAPON_SNARK			17
+#define WEAPON_FLASHLIGHT		30
+#else
 #define WEAPON_NONE				0
 #define WEAPON_CROWBAR			1
 #define	WEAPON_GLOCK			2
@@ -78,6 +99,7 @@ public:
 #define WEAPON_TRIPMINE			13
 #define	WEAPON_SATCHEL			14
 #define	WEAPON_SNARK			15
+#endif // defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 
 #define WEAPON_ALLWEAPONS		(~(1<<WEAPON_SUIT))
 
@@ -177,6 +199,9 @@ typedef	enum
 	BULLET_PLAYER_9MM, // glock
 	BULLET_PLAYER_MP5, // mp5
 	BULLET_PLAYER_357, // python
+#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
+	BULLET_PLAYER_SNIPER, // sniper
+#endif
 	BULLET_PLAYER_BUCKSHOT, // shotgun
 	BULLET_PLAYER_CROWBAR, // crowbar swipe
 
@@ -554,6 +579,16 @@ public:
 		return FALSE;
 #endif
 	}
+
+#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
+#ifndef CLIENT_DLL
+	int		Save(CSave &save);
+	int		Restore(CRestore &restore);
+	static	TYPEDESCRIPTION m_SaveData[];
+#endif
+
+	float m_flSoundDelay;
+#endif // defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 
 private:
 	unsigned short m_usFirePython;
@@ -1015,5 +1050,58 @@ private:
 	unsigned short m_usSnarkFire;
 };
 
+
+#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
+
+class CPipe : public CCrowbar
+{
+public:
+	void Spawn(void);
+	void Precache(void);
+	int iItemSlot(void) { return 1; }
+	int GetItemInfo(ItemInfo *p);
+
+	void PrimaryAttack(void);
+	int Swing(int fFirst);
+	BOOL Deploy(void);
+	void Holster(int skiplocal = 0);
+	int m_iSwing;
+	TraceResult m_trHit;
+private:
+	unsigned short m_usPipe;
+};
+
+
+class CSniper : public CBasePlayerWeapon
+{
+public:
+	void Spawn(void);
+	void Precache(void);
+	int iItemSlot(void) { return 3; }
+	int GetItemInfo(ItemInfo *p);
+	int AddToPlayer(CBasePlayer *pPlayer);
+	void PrimaryAttack(void);
+	void SecondaryAttack(void);
+	BOOL Deploy(void);
+	void Holster(int skiplocal = 0);
+	void Reload(void);
+	void WeaponIdle(void);
+
+	BOOL m_fInZoom;
+
+	virtual BOOL UseDecrement(void)
+	{
+#if defined( CLIENT_WEAPONS )
+		return TRUE;
+#else
+		return FALSE;
+#endif
+	}
+
+private:
+	unsigned short m_usFireSniper;
+};
+
+#endif // defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 
 #endif // WEAPONS_H

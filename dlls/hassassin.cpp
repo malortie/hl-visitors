@@ -83,6 +83,9 @@ public:
 	void DeathSound ( void );
 	void IdleSound ( void );
 	CUSTOM_SCHEDULES;
+#if defined ( VISITORS_DLL )
+	virtual int IRelationship(CBaseEntity *pTarget);
+#endif
 
 	int	Save( CSave &save ); 
 	int Restore( CRestore &restore );
@@ -1011,5 +1014,21 @@ Schedule_t* CHAssassin :: GetScheduleOfType ( int Type )
 
 	return CBaseMonster :: GetScheduleOfType( Type );
 }
+
+#if defined ( VISITORS_DLL )
+//=========================================================
+// IRelationship
+//=========================================================
+int CHAssassin::IRelationship(CBaseEntity *pTarget)
+{
+	if (FClassnameIs(pTarget->pev, "monster_human_massassin"))
+	{
+		return R_AL;
+	}
+
+	return CBaseMonster::IRelationship(pTarget);
+}
+#endif // defined ( VISITORS_DLL )
+
 
 #endif

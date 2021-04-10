@@ -22,6 +22,14 @@
 #include "effects.h"
 #include "customentity.h"
 
+#if defined ( VISITORS_DLL )
+enum
+{
+	OSPREY_BODY_DEFAULT = 0,
+	OSPREY_BODY_MEDIC = 1,
+};
+#endif
+
 typedef struct 
 {
 	int isValid;
@@ -149,7 +157,16 @@ void COsprey :: Spawn( void )
 	pev->movetype = MOVETYPE_FLY;
 	pev->solid = SOLID_BBOX;
 
+#if defined ( VISITORS_DLL )
+	switch (pev->body)
+	{
+	default:
+	case OSPREY_BODY_DEFAULT: SET_MODEL(ENT(pev), "models/osprey.mdl");  break;
+	case OSPREY_BODY_MEDIC: SET_MODEL(ENT(pev), "models/medosprey.mdl");  break;
+	}
+#else
 	SET_MODEL(ENT(pev), "models/osprey.mdl");
+#endif
 	UTIL_SetSize(pev, Vector( -400, -400, -100), Vector(400, 400, 32));
 	UTIL_SetOrigin( pev, pev->origin );
 
@@ -186,6 +203,9 @@ void COsprey::Precache( void )
 	UTIL_PrecacheOther( "monster_human_grunt" );
 
 	PRECACHE_MODEL("models/osprey.mdl");
+#if defined ( VISITORS_DLL )
+	PRECACHE_MODEL("models/medosprey.mdl");
+#endif
 	PRECACHE_MODEL("models/HVR.mdl");
 
 	PRECACHE_SOUND("apache/ap_rotor4.wav");
@@ -723,6 +743,21 @@ void COsprey :: DyingThink( void )
 
 			WRITE_BYTE( BREAK_METAL );
 		MESSAGE_END();
+
+#if defined ( VISITORS_DLL )
+		//
+		// HL: Visitors - Needed to trigger end game sequence.
+		//
+		if (FStrEq(STRING(gpGlobals->mapname), "vis24"))
+		{
+			// If I have a target, fire!
+			if (!FStringNull(m_iszTriggerTarget))
+			{
+				// delay already overloaded for this entity, so can't call SUB_UseTargets()
+				FireTargets(STRING(m_iszTriggerTarget), this, this, USE_TOGGLE, 0);
+			}
+		}
+#endif
 
 		UTIL_Remove( this );
 	}
