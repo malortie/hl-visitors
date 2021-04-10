@@ -177,9 +177,7 @@ void DecalGunshot( TraceResult *pTrace, int iBulletType )
 		case BULLET_MONSTER_MP5:
 		case BULLET_PLAYER_BUCKSHOT:
 		case BULLET_PLAYER_357:
-#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 		case BULLET_PLAYER_SNIPER:
-#endif
 		default:
 			// smoke and decal
 			UTIL_GunshotDecalTrace( pTrace, DamageDecal( pEntity, DMG_BULLET ) );
@@ -387,7 +385,6 @@ void W_Precache(void)
 	UTIL_PrecacheOtherWeapon( "weapon_hornetgun" );
 #endif
 
-#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 	// pipe
 	UTIL_PrecacheOtherWeapon("weapon_pipe");
 
@@ -399,7 +396,6 @@ void W_Precache(void)
 
 	// flashlight
 	UTIL_PrecacheOther("item_flashlight");
-#endif // defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 
 #if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
 	if ( g_pGameRules->IsDeathmatch() )
@@ -686,7 +682,6 @@ void CBasePlayerWeapon::ItemPostFrame( void )
 
 		m_pPlayer->TabulateAmmo();
 		SecondaryAttack();
-#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 		if ( !FClassnameIs( pev, "weapon_9mmhandgun" ) )
 		{
 			m_pPlayer->pev->button &= ~IN_ATTACK2;
@@ -695,9 +690,6 @@ void CBasePlayerWeapon::ItemPostFrame( void )
 		{
 			m_flNextPrimaryAttack = (UseDecrement() ? 0.0 : gpGlobals->time) + 0.2f;
 		}
-#else
-		m_pPlayer->pev->button &= ~IN_ATTACK2;
-#endif
 	}
 	else if ((m_pPlayer->pev->button & IN_ATTACK) && CanAttack( m_flNextPrimaryAttack, gpGlobals->time, UseDecrement() ) )
 	{
@@ -1642,10 +1634,8 @@ TYPEDESCRIPTION	CSatchel::m_SaveData[] =
 };
 IMPLEMENT_SAVERESTORE( CSatchel, CBasePlayerWeapon );
 
-#if defined ( VISITORS_DLL )
 TYPEDESCRIPTION	CPython::m_SaveData[] =
 {
 	DEFINE_FIELD(CPython, m_flSoundDelay, FIELD_TIME),
 };
 IMPLEMENT_SAVERESTORE(CPython, CBasePlayerWeapon);
-#endif // defined ( VISITORS_DLL )

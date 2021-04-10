@@ -17,7 +17,6 @@
 #define HGRUNT_H
 
 
-#if defined ( VISITORS_DLL )
 class CHGrunt : public CSquadMonster
 {
 public:
@@ -84,6 +83,5 @@ public:
 
 	static const char *pGruntSentences[];
 };
-#endif // defined ( VISITORS_DLL )
 
 #endif // HGRUNT_H

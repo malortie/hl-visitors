@@ -62,13 +62,11 @@ cvar_t	*c_mindistance;
 // pitch, yaw, dist
 vec3_t cam_ofs;
 
-#if defined ( VISITORS_CLIENT_DLL )
 //
 // HL: Visitors - Death camera
 //
 int	cam_deathcam_enabled;
 float cam_deathcam_yaw;
-#endif
 
 // In third person
 int cam_thirdperson;
@@ -416,7 +414,6 @@ void CL_DLLEXPORT CAM_Think( void )
 	}
 #endif
 
-#if defined ( VISITORS_CLIENT_DLL )
 	//
 	// HL: Visitors - Death camera.
 	//
@@ -436,7 +433,6 @@ void CL_DLLEXPORT CAM_Think( void )
 		else if (cam_deathcam_yaw < -180)
 			cam_deathcam_yaw += 360;
 	}
-#endif
 
 	cam_ofs[ 0 ] = camAngles[ 0 ];
 	cam_ofs[ 1 ] = camAngles[ 1 ];

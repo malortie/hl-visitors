@@ -35,9 +35,7 @@ extern BEAM *pBeam2;
 void ClearEventList( void );
 #endif
 
-#if defined ( VISITORS_CLIENT_DLL )
 extern int cam_thirdperson;
-#endif
 
 /// USER-DEFINED SERVER MESSAGE HANDLERS
 
@@ -144,7 +142,6 @@ int CHud :: MsgFunc_Concuss( const char *pszName, int iSize, void *pbuf )
 	return 1;
 }
 
-#if defined ( VISITORS_CLIENT_DLL )
 
 extern int cam_deathcam_enabled;
 extern float cam_deathcam_yaw;
@@ -187,4 +184,3 @@ void CHud::MsgFunc_DeathCam(const char *pszName, int iSize, void *pbuf)
 	}
 }
 
-#endif //defined ( VISITORS_CLIENT_DLL )

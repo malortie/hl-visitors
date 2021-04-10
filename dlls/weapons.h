@@ -62,7 +62,6 @@ public:
 #define ITEM_SECURITY		3
 #define ITEM_BATTERY		4
 
-#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 #define WEAPON_NONE				0
 #define WEAPON_CROWBAR			1
 #define WEAPON_PIPE				2
@@ -82,24 +81,6 @@ public:
 #define	WEAPON_SATCHEL			16
 #define	WEAPON_SNARK			17
 #define WEAPON_FLASHLIGHT		30
-#else
-#define WEAPON_NONE				0
-#define WEAPON_CROWBAR			1
-#define	WEAPON_GLOCK			2
-#define WEAPON_PYTHON			3
-#define WEAPON_MP5				4
-#define WEAPON_CHAINGUN			5
-#define WEAPON_CROSSBOW			6
-#define WEAPON_SHOTGUN			7
-#define WEAPON_RPG				8
-#define WEAPON_GAUSS			9
-#define WEAPON_EGON				10
-#define WEAPON_HORNETGUN		11
-#define WEAPON_HANDGRENADE		12
-#define WEAPON_TRIPMINE			13
-#define	WEAPON_SATCHEL			14
-#define	WEAPON_SNARK			15
-#endif // defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 
 #define WEAPON_ALLWEAPONS		(~(1<<WEAPON_SUIT))
 
@@ -199,9 +180,7 @@ typedef	enum
 	BULLET_PLAYER_9MM, // glock
 	BULLET_PLAYER_MP5, // mp5
 	BULLET_PLAYER_357, // python
-#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 	BULLET_PLAYER_SNIPER, // sniper
-#endif
 	BULLET_PLAYER_BUCKSHOT, // shotgun
 	BULLET_PLAYER_CROWBAR, // crowbar swipe
 
@@ -580,7 +559,6 @@ public:
 #endif
 	}
 
-#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 #ifndef CLIENT_DLL
 	int		Save(CSave &save);
 	int		Restore(CRestore &restore);
@@ -588,7 +566,6 @@ public:
 #endif
 
 	float m_flSoundDelay;
-#endif // defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 
 private:
 	unsigned short m_usFirePython;
@@ -1051,7 +1028,6 @@ private:
 };
 
 
-#if defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 
 class CPipe : public CCrowbar
 {
@@ -1102,6 +1078,5 @@ private:
 	unsigned short m_usFireSniper;
 };
 
-#endif // defined ( VISITORS_DLL ) || defined ( VISITORS_CLIENT_DLL )
 
 #endif // WEAPONS_H

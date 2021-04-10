@@ -393,10 +393,8 @@ void V_AddIdle ( struct ref_params_s *pparams )
 	pparams->viewangles[YAW] += v_idlescale * std::sin(pparams->time*v_iyaw_cycle.value) * v_iyaw_level.value;
 }
 
-#if defined ( VISITORS_CLIENT_DLL )
 extern cvar_t*	cam_command;
 extern int cam_thirdperson;
-#endif
  
 /*
 ==============
@@ -420,7 +418,6 @@ void V_CalcViewRoll ( struct ref_params_s *pparams )
 
 	if ( pparams->health <= 0 && ( pparams->viewheight[2] != 0 ) )
 	{
-#if defined ( VISITORS_CLIENT_DLL )
 		//
 		// HL: Visitors - No death view roll.
 		//
@@ -428,11 +425,6 @@ void V_CalcViewRoll ( struct ref_params_s *pparams )
 
 		// Look straight to the ground.
 		pparams->viewangles[PITCH] = 90;
-#else
-		// only roll the view if the player is dead and the viewheight[2] is nonzero 
-		// this is so deadcam in multiplayer will work.
-		pparams->viewangles[ROLL] = 80;	// dead view angle
-#endif // defined ( VISITORS_CLIENT_DLL )
 		return;
 	}
 }
@@ -1437,10 +1429,8 @@ int V_FindViewModelByWeaponModel(int weaponindex)
 		{ "models/p_tripmine.mdl",		"models/v_tripmine.mdl"		},
 		{ "models/p_satchel_radio.mdl",	"models/v_satchel_radio.mdl"},
 		{ "models/p_satchel.mdl",		"models/v_satchel.mdl"		},
-#if defined ( VISITORS_CLIENT_DLL )
 		{ "models/p_pipe.mdl",			"models/v_pipe.mdl"			},
 		{ "models/p_sniper.mdl",		"models/v_sniper.mdl"		},
-#endif // defined ( VISITORS_CLIENT_DLL )
 		{ NULL, NULL } };
 
 	struct model_s * weaponModel = IEngineStudio.GetModelByIndex( weaponindex );

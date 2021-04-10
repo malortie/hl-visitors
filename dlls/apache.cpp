@@ -22,13 +22,11 @@
 #include "nodes.h"
 #include "effects.h"
 
-#if defined ( VISITORS_DLL )
 enum
 {
 	APACHE_BODY_ARMY		= 0,
 	APACHE_BODY_BLACKOPS	= 1,
 };
-#endif
 
 extern DLL_GLOBAL int		g_iSkillLevel;
 
@@ -48,9 +46,7 @@ class CApache : public CBaseMonster
 	void Killed( entvars_t *pevAttacker, int iGib );
 	void GibMonster( void );
 
-#if defined ( VISITORS_DLL )
 	virtual int IRelationship(CBaseEntity *pTarget);
-#endif
 
 	void SetObjectCollisionBox( void )
 	{
@@ -133,16 +129,12 @@ void CApache :: Spawn( void )
 	pev->movetype = MOVETYPE_FLY;
 	pev->solid = SOLID_BBOX;
 
-#if defined ( VISITORS_DLL )
 	switch (pev->body)
 	{
 	default:
 	case APACHE_BODY_ARMY:		SET_MODEL(ENT(pev), "models/apache.mdl"); break;
 	case APACHE_BODY_BLACKOPS:	SET_MODEL(ENT(pev), "models/blkop_apache.mdl"); break;
 	}
-#else
-	SET_MODEL(ENT(pev), "models/apache.mdl");
-#endif
 	UTIL_SetSize( pev, Vector( -32, -32, -64 ), Vector( 32, 32, 0 ) );
 	UTIL_SetOrigin( pev, pev->origin );
 
@@ -176,9 +168,7 @@ void CApache :: Spawn( void )
 void CApache::Precache( void )
 {
 	PRECACHE_MODEL("models/apache.mdl");
-#if defined ( VISITORS_DLL )
 	PRECACHE_MODEL("models/blkop_apache.mdl");
-#endif
 
 	PRECACHE_SOUND("apache/ap_rotor1.wav");
 	PRECACHE_SOUND("apache/ap_rotor2.wav");
@@ -957,7 +947,6 @@ void CApache::TraceAttack( entvars_t *pevAttacker, float flDamage, Vector vecDir
 	}
 }
 
-#if defined ( VISITORS_DLL )
 //=========================================================
 // IRelationship
 //=========================================================
@@ -974,7 +963,6 @@ int CApache::IRelationship(CBaseEntity *pTarget)
 
 	return CBaseMonster::IRelationship(pTarget);
 }
-#endif
 
 
 class CApacheHVR : public CGrenade

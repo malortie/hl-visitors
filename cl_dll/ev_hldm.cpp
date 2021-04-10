@@ -75,10 +75,8 @@ void EV_SnarkFire( struct event_args_s *args  );
 
 void EV_TrainPitchAdjust( struct event_args_s *args );
 
-#if defined ( VISITORS_CLIENT_DLL )
 void EV_Pipe(struct event_args_s *args);
 void EV_FireSniper(struct event_args_s *args);
-#endif
 }
 
 #define VECTOR_CONE_1DEGREES Vector( 0.00873, 0.00873, 0.00873 )
@@ -300,9 +298,7 @@ void EV_HLDM_DecalGunshot( pmtrace_t *pTrace, int iBulletType )
 		case BULLET_MONSTER_MP5:
 		case BULLET_PLAYER_BUCKSHOT:
 		case BULLET_PLAYER_357:
-#if defined ( VISITORS_CLIENT_DLL )
 		case BULLET_PLAYER_SNIPER:
-#endif
 		default:
 			// smoke and decal
 			EV_HLDM_GunshotDecalTrace( pTrace, EV_HLDM_DamageDecal( pe ) );
@@ -438,9 +434,7 @@ void EV_HLDM_FireBullets( int idx, float *forward, float *right, float *up, int 
 			
 				break;
 			case BULLET_PLAYER_357:
-#if defined ( VISITORS_CLIENT_DLL )
 			case BULLET_PLAYER_SNIPER:
-#endif
 				
 				EV_HLDM_PlayTextureSound( idx, &tr, vecSrc, vecEnd, iBulletType );
 				EV_HLDM_DecalGunshot( &tr, iBulletType );
@@ -1714,7 +1708,6 @@ int EV_TFC_IsAllyTeam( int iTeam1, int iTeam2 )
 	return 0;
 }
 
-#if defined ( VISITORS_CLIENT_DLL )
 
 //======================
 //	   PIPE START
@@ -1837,4 +1830,3 @@ void EV_FireSniper(event_args_t *args)
 //======================
 //	    SNIPER END 
 //======================
-#endif // VISITORS_CLIENT_DLL

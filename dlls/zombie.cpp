@@ -24,14 +24,12 @@
 #include	"monsters.h"
 #include	"schedule.h"
 
-#if defined ( VISITORS_DLL )
 enum
 {
 	ZOMBIE_BODY_SCIENTIST	= 0,
 	ZOMBIE_BODY_BARNEY		= 1,
 	ZOMBIE_BODY_SOLDIER		= 3,
 };
-#endif
 
 
 //=========================================================
@@ -282,7 +280,6 @@ void CZombie :: Spawn()
 {
 	Precache( );
 
-#if defined ( VISITORS_DLL )
 	switch (pev->body)
 	{
 	default:
@@ -290,9 +287,6 @@ void CZombie :: Spawn()
 	case ZOMBIE_BODY_BARNEY:	SET_MODEL(ENT(pev), "models/zombie_barney.mdl"); break;
 	case ZOMBIE_BODY_SOLDIER:	SET_MODEL(ENT(pev), "models/zombie_soldier.mdl"); break;
 	}
-#else
-	SET_MODEL(ENT(pev), "models/zombie.mdl");
-#endif
 	UTIL_SetSize( pev, VEC_HUMAN_HULL_MIN, VEC_HUMAN_HULL_MAX );
 
 	pev->solid			= SOLID_SLIDEBOX;
@@ -315,10 +309,8 @@ void CZombie :: Precache()
 	int i;
 
 	PRECACHE_MODEL("models/zombie.mdl");
-#if defined ( VISITORS_DLL )
 	PRECACHE_MODEL("models/zombie_barney.mdl");
 	PRECACHE_MODEL("models/zombie_soldier.mdl");
-#endif
 
 	for ( i = 0; i < ARRAYSIZE( pAttackHitSounds ); i++ )
 		PRECACHE_SOUND((char *)pAttackHitSounds[i]);

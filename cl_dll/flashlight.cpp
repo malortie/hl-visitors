@@ -102,11 +102,7 @@ int CHudFlashlight::Draw(float flTime)
 	int r, g, b, x, y, a;
 	wrect_t rc;
 
-#if defined ( VISITORS_CLIENT_DLL )
 	if (!(gHUD.m_iWeaponBits & (1<<(WEAPON_FLASHLIGHT)) ))
-#else
-	if (!(gHUD.m_iWeaponBits & (1<<(WEAPON_SUIT)) ))
-#endif
 	return 1;
 
 	if (m_fOn)

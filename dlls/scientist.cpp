@@ -27,13 +27,8 @@
 #include	"animation.h"
 #include	"soundent.h"
 
-#if defined ( VISITORS_DLL )
 #define		NUM_SCIENTIST_HEADS		6 // six heads available for scientist model
 enum { HEAD_GLASSES = 0, HEAD_EINSTEIN = 1, HEAD_LUTHER = 2, HEAD_SLICK = 3, HEAD_NEW_BLACK = 4, HEAD_NEW_WHITE = 5, };
-#else
-#define		NUM_SCIENTIST_HEADS		4 // four heads available for scientist model
-enum { HEAD_GLASSES = 0, HEAD_EINSTEIN = 1, HEAD_LUTHER = 2, HEAD_SLICK = 3 };
-#endif
 
 enum
 {
@@ -686,11 +681,7 @@ void CScientist :: Spawn( void )
 	}
 
 	// Luther is black, make his hands black
-#if defined ( VISITORS_DLL )
 	if ( pev->body == HEAD_LUTHER || pev->body == HEAD_NEW_BLACK  )
-#else
-	if ( pev->body == HEAD_LUTHER )
-#endif
 		pev->skin = 1;
 	
 	MonsterInit();
@@ -760,10 +751,8 @@ void CScientist :: TalkInit()
 	case HEAD_EINSTEIN: m_voicePitch = 100; break;	//einstein
 	case HEAD_LUTHER:	m_voicePitch = 95;  break;	//luther
 	case HEAD_SLICK:	m_voicePitch = 100;  break;//slick
-#if defined ( VISITORS_DLL )
 	case HEAD_NEW_BLACK: m_voicePitch = 90;  break;	// new black
 	case HEAD_NEW_WHITE: m_voicePitch = 110;  break; // new white
-#endif
 	}
 }
 
@@ -1154,11 +1143,7 @@ void CDeadScientist :: Spawn( )
 		pev->body = RANDOM_LONG(0, NUM_SCIENTIST_HEADS-1);// pick a head, any head
 	}
 	// Luther is black, make his hands black
-#if defined ( VISITORS_DLL )
 	if ( pev->body == HEAD_LUTHER || pev->body == HEAD_NEW_BLACK )
-#else
-	if ( pev->body == HEAD_LUTHER )
-#endif
 		pev->skin = 1;
 	else
 		pev->skin = 0;
@@ -1249,11 +1234,7 @@ void CSittingScientist :: Spawn( )
 		pev->body = RANDOM_LONG(0, NUM_SCIENTIST_HEADS-1);// pick a head, any head
 	}
 	// Luther is black, make his hands black
-#if defined ( VISITORS_DLL )
 	if ( pev->body == HEAD_LUTHER || pev->body == HEAD_NEW_BLACK )
-#else
-	if ( pev->body == HEAD_LUTHER )
-#endif
 		pev->skin = 1;
 	
 	m_baseSequence = LookupSequence( "sitlookleft" );

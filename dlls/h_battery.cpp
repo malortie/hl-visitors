@@ -117,7 +117,6 @@ void CRecharge::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 		Off();
 	}
 
-#if defined ( VISITORS_DLL )
 	//
 	// HL: Visitors - No suit recharge allowed.
 	//
@@ -127,7 +126,6 @@ void CRecharge::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 		EMIT_SOUND(ENT(pev), CHAN_ITEM, "items/suitchargeno1.wav", 0.85, ATTN_NORM);
 	}
 	return;
-#endif // defined ( VISITORS_DLL )
 
 	// if the player doesn't have the suit, or there is no juice left, make the deny noise
 	if ((m_iJuice <= 0) || (!(pActivator->pev->weapons & (1<<WEAPON_SUIT))))
