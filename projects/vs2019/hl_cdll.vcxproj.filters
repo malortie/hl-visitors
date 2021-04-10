@@ -55,6 +55,9 @@
     <Filter Include="Source Files\_hl\cl_dll\hl">
       <UniqueIdentifier>{bd9d5958-4e67-4bff-bbd8-6ba6dfcdb720}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\_hl\dlls\visitors">
+      <UniqueIdentifier>{cb00f022-ef45-4c9e-86e9-836de90b0100}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\dlls\crossbow.cpp">
@@ -305,6 +308,12 @@
     </ClCompile>
     <ClCompile Include="..\..\public\interface.cpp">
       <Filter>Source Files\public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\visitors\pipe.cpp">
+      <Filter>Source Files\_hl\dlls\visitors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\visitors\sniper.cpp">
+      <Filter>Source Files\_hl\dlls\visitors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

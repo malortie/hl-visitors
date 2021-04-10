@@ -34,6 +34,9 @@
     <Filter Include="Header Files\pm_shared">
       <UniqueIdentifier>{37941113-16fa-4ce0-9bdd-a72a1ced8902}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dlls\visitors">
+      <UniqueIdentifier>{f7888e73-3762-473f-8383-c4c32799f883}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\dlls\aflock.cpp">
@@ -342,6 +345,21 @@
     <ClCompile Include="..\..\dlls\xen.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\visitors\flashlight.cpp">
+      <Filter>Source Files\dlls\visitors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\visitors\kevlar.cpp">
+      <Filter>Source Files\dlls\visitors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\visitors\massn.cpp">
+      <Filter>Source Files\dlls\visitors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\visitors\pipe.cpp">
+      <Filter>Source Files\dlls\visitors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\visitors\sniper.cpp">
+      <Filter>Source Files\dlls\visitors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">
@@ -477,6 +495,9 @@
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\dlls\vector.h">
+      <Filter>Header Files\dlls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\dlls\hgrunt.h">
       <Filter>Header Files\dlls</Filter>
     </ClInclude>
   </ItemGroup>
