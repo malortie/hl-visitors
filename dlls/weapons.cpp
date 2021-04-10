@@ -1633,3 +1633,9 @@ TYPEDESCRIPTION	CSatchel::m_SaveData[] =
 	DEFINE_FIELD( CSatchel, m_chargeReady, FIELD_INTEGER ),
 };
 IMPLEMENT_SAVERESTORE( CSatchel, CBasePlayerWeapon );
+
+TYPEDESCRIPTION	CSniper::m_SaveData[] = 
+{
+	DEFINE_FIELD( CSniper, m_fInZoom, FIELD_BOOLEAN ),
+};
+IMPLEMENT_SAVERESTORE( CSniper, CBasePlayerWeapon );
