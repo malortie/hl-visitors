@@ -103,6 +103,12 @@ void CPipe::PrimaryAttack()
 	}
 }
 
+
+void CPipe::Smack( )
+{
+	DecalGunshot( &m_trHit, BULLET_PLAYER_CROWBAR );
+}
+
 int CPipe::Swing(int fFirst)
 {
 	int fDidHit = FALSE;

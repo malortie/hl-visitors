@@ -1033,6 +1033,7 @@ public:
 	void Spawn(void);
 	void Precache(void);
 	int iItemSlot(void) { return 1; }
+	void EXPORT Smack( void );
 	int GetItemInfo(ItemInfo *p);
 
 	void PrimaryAttack(void);
