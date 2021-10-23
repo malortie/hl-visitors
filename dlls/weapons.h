@@ -747,6 +747,7 @@ public:
 	CRpg *m_pLauncher;// pointer back to the launcher that fired me. 
 };
 
+/*
 class CGauss : public CBasePlayerWeapon
 {
 public:
@@ -796,7 +797,6 @@ private:
 	unsigned short m_usGaussSpin;
 };
 
-/*
 class CEgon : public CBasePlayerWeapon
 {
 public:

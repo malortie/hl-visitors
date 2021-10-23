@@ -346,7 +346,7 @@ void W_Precache(void)
 	
 #if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
 	// gauss
-	UTIL_PrecacheOtherWeapon( "weapon_gauss" );
+//	UTIL_PrecacheOtherWeapon( "weapon_gauss" );
 	UTIL_PrecacheOther( "ammo_gaussclip" );
 #endif
 
@@ -1611,6 +1611,7 @@ TYPEDESCRIPTION	CShotgun::m_SaveData[] =
 };
 IMPLEMENT_SAVERESTORE( CShotgun, CBasePlayerWeapon );
 
+/*
 TYPEDESCRIPTION	CGauss::m_SaveData[] = 
 {
 	DEFINE_FIELD( CGauss, m_fInAttack, FIELD_INTEGER ),
@@ -1621,7 +1622,6 @@ TYPEDESCRIPTION	CGauss::m_SaveData[] =
 };
 IMPLEMENT_SAVERESTORE( CGauss, CBasePlayerWeapon );
 
-/*
 TYPEDESCRIPTION	CEgon::m_SaveData[] = 
 {
 //	DEFINE_FIELD( CEgon, m_pBeam, FIELD_CLASSPTR ),
