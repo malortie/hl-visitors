@@ -129,7 +129,7 @@ void CSniper::PrimaryAttack()
 	if (m_pPlayer->pev->waterlevel == 3)
 	{
 		PlayEmptySound();
-		m_flNextPrimaryAttack = 0.15;
+		m_flNextPrimaryAttack = GetNextAttackDelay(0.15);
 		return;
 	}
 
@@ -140,7 +140,7 @@ void CSniper::PrimaryAttack()
 		else
 		{
 			EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_WEAPON, "weapons/357_cock1.wav", 0.8, ATTN_NORM);
-			m_flNextPrimaryAttack = 0.15;
+			m_flNextPrimaryAttack = GetNextAttackDelay(0.15);
 		}
 
 		return;
@@ -174,8 +174,8 @@ void CSniper::PrimaryAttack()
 
 	PLAYBACK_EVENT_FULL(flags, m_pPlayer->edict(), m_usFireSniper, 0.0, (float *)&g_vecZero, (float *)&g_vecZero, vecDir.x, vecDir.y, 0, 0, 0, 0);
 
-	m_flNextPrimaryAttack = (46.0 / 35.0);
 	m_flTimeWeaponIdle = UTIL_SharedRandomFloat(m_pPlayer->random_seed, 10, 15);
+	m_flNextPrimaryAttack = GetNextAttackDelay(46.0 / 35.0);
 }
 
 
