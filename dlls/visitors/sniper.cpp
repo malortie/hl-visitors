@@ -210,30 +210,3 @@ void CSniper::WeaponIdle(void)
 
 	SendWeaponAnim(SNIPER_IDLE1, UseDecrement() ? 1 : 0);
 }
-
-
-class CSniperAmmoClip : public CBasePlayerAmmo
-{
-	void Spawn(void)
-	{
-		Precache();
-		SET_MODEL(ENT(pev), "models/w_sniperclip.mdl");
-		CBasePlayerAmmo::Spawn();
-	}
-	void Precache(void)
-	{
-		PRECACHE_MODEL("models/w_sniperclip.mdl");
-		PRECACHE_SOUND("items/9mmclip1.wav");
-	}
-	BOOL AddAmmo(CBaseEntity *pOther)
-	{
-		int bResult = (pOther->GiveAmmo(AMMO_357BOX_GIVE, "357", _357_MAX_CARRY) != -1);
-		if (bResult)
-		{
-			EMIT_SOUND(ENT(pev), CHAN_ITEM, "items/9mmclip1.wav", 1, ATTN_NORM);
-		}
-		return bResult;
-	}
-};
-
-LINK_ENTITY_TO_CLASS(ammo_sniper, CSniperAmmoClip);
