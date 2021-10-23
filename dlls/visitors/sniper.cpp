@@ -104,7 +104,7 @@ void CSniper::Holster(int skiplocal /* = 0 */)
 	}
 
 	m_pPlayer->m_flNextAttack = UTIL_WeaponTimeBase() + 1.0;
-	m_flTimeWeaponIdle = UTIL_SharedRandomFloat(m_pPlayer->random_seed, 10, 15);
+	m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + UTIL_SharedRandomFloat(m_pPlayer->random_seed, 10, 15);
 }
 
 void CSniper::SecondaryAttack(void)
@@ -174,8 +174,8 @@ void CSniper::PrimaryAttack()
 
 	PLAYBACK_EVENT_FULL(flags, m_pPlayer->edict(), m_usFireSniper, 0.0, (float *)&g_vecZero, (float *)&g_vecZero, vecDir.x, vecDir.y, 0, 0, 0, 0);
 
-	m_flTimeWeaponIdle = UTIL_SharedRandomFloat(m_pPlayer->random_seed, 10, 15);
 	m_flNextPrimaryAttack = GetNextAttackDelay(46.0 / 35.0);
+	m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + UTIL_SharedRandomFloat(m_pPlayer->random_seed, 10, 15);
 }
 
 
@@ -206,7 +206,7 @@ void CSniper::WeaponIdle(void)
 	if (m_flTimeWeaponIdle > UTIL_WeaponTimeBase())
 		return;
 
-	m_flTimeWeaponIdle = (9.0 / 16.0);
+	m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + (9.0 / 16.0);
 
 	SendWeaponAnim(SNIPER_IDLE1, UseDecrement() ? 1 : 0);
 }
