@@ -1783,6 +1783,65 @@ float TEXTURETYPE_PlaySound(TraceResult *ptr,  Vector vecSrc, Vector vecEnd, int
 	UTIL_EmitAmbientSound(ENT(0), ptr->vecEndPos, rgsz[RANDOM_LONG(0,cnt-1)], fvol, fattn, 0, 96 + RANDOM_LONG(0,0xf));
 	//EMIT_SOUND_DYN( ENT(m_pPlayer->pev), CHAN_WEAPON, rgsz[RANDOM_LONG(0,cnt-1)], fvol, ATTN_NORM, 0, 96 + RANDOM_LONG(0,0xf));
 			
+	// HL: Visitors - Particle effects.
+
+	// Crowbar bullet type does not emit particles.
+	if (iBulletType == BULLET_PLAYER_CROWBAR)
+		return fvolbar;
+
+	extern DLL_GLOBAL int g_sModelIndexConcreteGibs;
+	extern DLL_GLOBAL int g_sModelIndexRockGibs;
+	extern DLL_GLOBAL short	g_sModelIndexSmoke;
+
+	if (chTextureType == CHAR_TEX_CONCRETE2 || chTextureType == CHAR_TEX_ROCK)
+	{
+		// Occasionally emit particles.
+		if ( RANDOM_LONG(0, 1) == 0 )
+		{
+			Vector vecDir = ptr->vecPlaneNormal;
+			Vector vecUp(0, 0, 1);
+			Vector vecRight;
+
+			// Avoid null vector if plane normal is same as default up vector.
+			if (DotProduct(vecDir, vecUp) == -1 || DotProduct(vecDir, vecUp) == 1)
+				vecUp = Vector(1, 0, 0);
+
+			vecRight = CrossProduct (vecDir, vecUp);
+			vecDir = vecDir + vecRight * RANDOM_FLOAT(-1.0f, 1.0f);
+			vecDir = vecDir + vecUp * RANDOM_FLOAT(-1.0f, 1.0f);
+			vecDir = vecDir.Normalize() * 25 * RANDOM_LONG(1, 10);
+
+			MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, ptr->vecEndPos );
+				WRITE_BYTE( TE_MODEL );
+				WRITE_COORD( ptr->vecEndPos.x );
+				WRITE_COORD( ptr->vecEndPos.y );
+				WRITE_COORD( ptr->vecEndPos.z );
+				WRITE_COORD( vecDir.x );
+				WRITE_COORD( vecDir.y );
+				WRITE_COORD( vecDir.z );
+				WRITE_ANGLE( RANDOM_LONG(0, 360) );
+				if ( chTextureType == CHAR_TEX_CONCRETE2 )
+					WRITE_SHORT( g_sModelIndexConcreteGibs );
+				else
+					WRITE_SHORT( g_sModelIndexRockGibs );
+				WRITE_BYTE ( TE_BOUNCE_NULL );
+				WRITE_BYTE ( 50 );// 5 seconds
+			MESSAGE_END();
+		}
+	}
+	else if (chTextureType == CHAR_TEX_SMOKE)
+	{
+		MESSAGE_BEGIN( MSG_PVS, SVC_TEMPENTITY, ptr->vecEndPos );
+			WRITE_BYTE( TE_SMOKE );
+			WRITE_COORD( ptr->vecEndPos.x );
+			WRITE_COORD( ptr->vecEndPos.y );
+			WRITE_COORD( ptr->vecEndPos.z );
+			WRITE_SHORT( g_sModelIndexSmoke );
+			WRITE_BYTE( 15 ); // scale * 10
+			WRITE_BYTE( 30 ); // framerate
+		MESSAGE_END();
+	}
+
 	return fvolbar;
 }
 

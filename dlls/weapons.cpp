@@ -47,6 +47,9 @@ DLL_GLOBAL	short	g_sModelIndexBubbles;// holds the index for the bubbles model
 DLL_GLOBAL	short	g_sModelIndexBloodDrop;// holds the sprite index for the initial blood
 DLL_GLOBAL	short	g_sModelIndexBloodSpray;// holds the sprite index for splattered blood
 
+DLL_GLOBAL	int		g_sModelIndexConcreteGibs;// holds the sprite index for the concrete gibs model
+DLL_GLOBAL	int		g_sModelIndexRockGibs;// holds the sprite index for the rock gibs model
+
 ItemInfo CBasePlayerItem::ItemInfoArray[MAX_WEAPONS];
 AmmoInfo CBasePlayerItem::AmmoInfoArray[MAX_AMMO_SLOTS];
 
@@ -432,6 +435,9 @@ void W_Precache(void)
 	
 	PRECACHE_SOUND ("items/weapondrop1.wav");// weapon falls to the ground
 
+	// HL: Visitors - Particles effects.
+	g_sModelIndexConcreteGibs = PRECACHE_MODEL ("models/concretegibs.mdl");
+	g_sModelIndexRockGibs = PRECACHE_MODEL ("models/rockgibs.mdl");
 }
 
 

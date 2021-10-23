@@ -31,4 +31,9 @@
 #define CHAR_TEX_FLESH		'F'
 #define CHAR_TEX_SNOW		'N'
 
+// HL: Visitors - Custom materials
+#define CHAR_TEX_CONCRETE2	'O'
+#define CHAR_TEX_ROCK		'I'
+#define CHAR_TEX_SMOKE		'R'
+
 #endif // !PM_MATERIALSH

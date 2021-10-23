@@ -223,6 +223,59 @@ float EV_HLDM_PlayTextureSound( int idx, pmtrace_t *ptr, float *vecSrc, float *v
 
 	// play material hit sound
 	gEngfuncs.pEventAPI->EV_PlaySound( 0, ptr->endpos, CHAN_STATIC, rgsz[gEngfuncs.pfnRandomLong(0,cnt-1)], fvol, fattn, 0, 96 + gEngfuncs.pfnRandomLong(0,0xf) );
+
+	// HL: Visitors - Particle effects.
+	if (chTextureType == CHAR_TEX_CONCRETE2 || chTextureType == CHAR_TEX_ROCK)
+	{
+		// Occasionally emit particles.
+		if (gEngfuncs.pfnRandomLong(0, 1) == 0)
+		{
+			Vector vecDir = ptr->plane.normal;
+			Vector vecUp(0, 0, 1);
+			Vector vecRight;
+
+			// Avoid null vector if plane normal is same as default up vector.
+			if (DotProduct(vecDir, vecUp) == -1 || DotProduct(vecDir, vecUp) == 1)
+				vecUp = Vector(1, 0, 0);
+
+			vecRight = CrossProduct(vecDir, vecUp);
+			vecDir = vecDir + vecRight * gEngfuncs.pfnRandomFloat(-1.0f, 1.0f);
+			vecDir = vecDir + vecUp * gEngfuncs.pfnRandomFloat(-1.0f, 1.0f);
+			vecDir = vecDir.Normalize() * 25 * gEngfuncs.pfnRandomLong(1, 10);
+
+			int modelindex;
+			if (chTextureType == CHAR_TEX_CONCRETE2)
+				modelindex = gEngfuncs.pEventAPI->EV_FindModelIndex("models/concretegibs.mdl");
+			else
+				modelindex = gEngfuncs.pEventAPI->EV_FindModelIndex("models/rockgibs.mdl");
+
+			float angles[3] = {
+				360 * gEngfuncs.pfnRandomFloat(0, 1),
+				360 * gEngfuncs.pfnRandomFloat(0, 1),
+				360 * gEngfuncs.pfnRandomFloat(0, 1)
+			};
+			gEngfuncs.pEfxAPI->R_TempModel(
+				ptr->endpos,
+				vecDir,
+				angles,
+				5,
+				modelindex,
+				TE_BOUNCE_NULL
+			);
+		}
+	}
+	else if (chTextureType == CHAR_TEX_SMOKE)
+	{
+		int modelindex = gEngfuncs.pEventAPI->EV_FindModelIndex("sprites/steam1.spr");
+
+		TEMPENTITY* pSmoke = gEngfuncs.pEfxAPI->R_DefaultSprite(
+			ptr->endpos,
+			modelindex,
+			30.0);
+		if (pSmoke)
+			gEngfuncs.pEfxAPI->R_Sprite_Smoke(pSmoke, 1.5f);
+	}
+
 	return fvolbar;
 }
 
@@ -430,6 +483,7 @@ void EV_HLDM_FireBullets( int idx, float *forward, float *right, float *up, int 
 				break;
 			case BULLET_PLAYER_BUCKSHOT:
 				
+				EV_HLDM_PlayTextureSound( idx, &tr, vecSrc, vecEnd, iBulletType );
 				EV_HLDM_DecalGunshot( &tr, iBulletType );
 			
 				break;
