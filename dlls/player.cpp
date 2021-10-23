@@ -3982,12 +3982,38 @@ void CBasePlayer :: UpdateClientData( void )
 		InitStatusBar();
 	}
 
-	//
-	// HL: Visitors - Give suit to toggle hud on map vis07 (Security system failed)
-	//
-	if (!(pev->weapons & (1 << WEAPON_SUIT)) && FStrEq(STRING(gpGlobals->mapname), "vis07"))
+	// HL: Visitors - Check if we must show/hide the HUD.
+	extern DLL_GLOBAL BOOL	g_fUpdateHUDVisibility;
+	if (g_fUpdateHUDVisibility)
 	{
-		pev->weapons |= (1 << WEAPON_SUIT);
+		g_fUpdateHUDVisibility = FALSE;
+
+		// List of maps on which HUD is hidden.
+		static const char* hud_hidden_on_maps [] = {
+			"vis01",
+			"vis02",
+			"vis03",
+			"vis04",
+			"vis05",
+			"vis05a",
+			"vis06",
+			"vis_credits",
+		};
+
+		BOOL bFound = FALSE;
+		for (int i = 0; i < ARRAYSIZE(hud_hidden_on_maps); ++i)
+		{
+			if (FStrEq(STRING(gpGlobals->mapname), hud_hidden_on_maps[i]))
+			{
+				bFound = TRUE;
+				break;
+			}
+		}
+
+		if (bFound)
+			ClearBits(pev->weapons, (1 << WEAPON_SUIT)); // Hide HUD
+		else
+			SetBits(pev->weapons, (1 << WEAPON_SUIT));  // Show HUD
 	}
 
 	if ( m_iHideHUD != m_iClientHideHUD )

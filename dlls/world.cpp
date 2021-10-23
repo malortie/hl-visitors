@@ -468,12 +468,16 @@ LINK_ENTITY_TO_CLASS( worldspawn, CWorld );
 
 extern DLL_GLOBAL BOOL		g_fGameOver;
 float g_flWeaponCheat; 
+extern DLL_GLOBAL BOOL		g_fUpdateHUDVisibility;
 
 void CWorld :: Spawn( void )
 {
 	g_fGameOver = FALSE;
 	Precache( );
 	g_flWeaponCheat = CVAR_GET_FLOAT( "sv_cheats" );  // Is the impulse 101 command allowed?
+
+	 // HL: Visitors - Update HUD visibility on each new level.
+	g_fUpdateHUDVisibility = TRUE;
 }
 
 void CWorld :: Precache( void )
