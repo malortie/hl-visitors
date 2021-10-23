@@ -316,7 +316,7 @@ void W_Precache(void)
 	// custom items...
 
 	// common world objects
-	UTIL_PrecacheOther( "item_suit" );
+//	UTIL_PrecacheOther( "item_suit" );
 	UTIL_PrecacheOther( "item_battery" );
 	UTIL_PrecacheOther( "item_antidote" );
 	UTIL_PrecacheOther( "item_security" );

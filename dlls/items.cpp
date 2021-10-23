@@ -67,9 +67,9 @@ void CWorldItem::Spawn( void )
 	case 43: // ITEM_SECURITY:
 		pEntity = CBaseEntity::Create( "item_security", pev->origin, pev->angles );
 		break;
-	case 45: // ITEM_SUIT:
+/*	case 45: // ITEM_SUIT:
 		pEntity = CBaseEntity::Create( "item_suit", pev->origin, pev->angles );
-		break;
+		break;*/
 	}
 
 	if (!pEntity)
@@ -169,6 +169,7 @@ void CItem::Materialize( void )
 	SetTouch( &CItem::ItemTouch );
 }
 
+/*
 #define SF_SUIT_SHORTLOGON		0x0001
 
 class CItemSuit : public CItem
@@ -194,6 +195,7 @@ class CItemSuit : public CItem
 };
 
 LINK_ENTITY_TO_CLASS(item_suit, CItemSuit);
+*/
 
 
 
