@@ -188,6 +188,8 @@ void CSniper::Reload(void)
 
 	if (iResult)
 	{
+		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_ITEM, "weapons/sniper_reload1.wav", 1.0, ATTN_NORM);
+
 		if (m_pPlayer->pev->fov != 0)
 		{
 			m_fInZoom = FALSE;
