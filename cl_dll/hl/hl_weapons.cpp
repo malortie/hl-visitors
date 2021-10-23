@@ -60,7 +60,7 @@ CCrossbow g_Crossbow;
 CShotgun g_Shotgun;
 CRpg g_Rpg;
 CGauss g_Gauss;
-CEgon g_Egon;
+//CEgon g_Egon;
 CHgun g_HGun;
 CHandGrenade g_HandGren;
 CSatchel g_Satchel;
@@ -614,7 +614,7 @@ void HUD_InitClientWeapons( void )
 	HUD_PrepEntity( &g_Shotgun	, &player );
 	HUD_PrepEntity( &g_Rpg	, &player );
 	HUD_PrepEntity( &g_Gauss	, &player );
-	HUD_PrepEntity( &g_Egon	, &player );
+//	HUD_PrepEntity( &g_Egon	, &player );
 	HUD_PrepEntity( &g_HGun	, &player );
 	HUD_PrepEntity( &g_HandGren	, &player );
 	HUD_PrepEntity( &g_Satchel	, &player );
@@ -719,9 +719,11 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 			pWeapon = &g_Gauss;
 			break;
 
+/*
 		case WEAPON_EGON:
 			pWeapon = &g_Egon;
 			break;
+*/
 
 		case WEAPON_HORNETGUN:
 			pWeapon = &g_HGun;

@@ -66,9 +66,6 @@
     <ClCompile Include="..\..\dlls\crowbar.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\dlls\egon.cpp">
-      <Filter>Source Files\_hl\dlls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cl_dll\ev_hldm.cpp">
       <Filter>Source Files\_hl\cl_dll</Filter>
     </ClCompile>

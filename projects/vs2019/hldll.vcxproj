@@ -130,7 +130,6 @@ if exist "$(TargetDir)$(TargetName).pdb" copy "$(TargetDir)$(TargetName).pdb" "$
     <ClCompile Include="..\..\dlls\defaultai.cpp" />
     <ClCompile Include="..\..\dlls\doors.cpp" />
     <ClCompile Include="..\..\dlls\effects.cpp" />
-    <ClCompile Include="..\..\dlls\egon.cpp" />
     <ClCompile Include="..\..\dlls\explode.cpp" />
     <ClCompile Include="..\..\dlls\flyingmonster.cpp" />
     <ClCompile Include="..\..\dlls\func_break.cpp" />

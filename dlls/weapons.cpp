@@ -364,7 +364,7 @@ void W_Precache(void)
 
 #if !defined( OEM_BUILD ) && !defined( HLDEMO_BUILD )
 	// egon
-	UTIL_PrecacheOtherWeapon( "weapon_egon" );
+//	UTIL_PrecacheOtherWeapon( "weapon_egon" );
 #endif
 
 	// tripmine
@@ -1621,6 +1621,7 @@ TYPEDESCRIPTION	CGauss::m_SaveData[] =
 };
 IMPLEMENT_SAVERESTORE( CGauss, CBasePlayerWeapon );
 
+/*
 TYPEDESCRIPTION	CEgon::m_SaveData[] = 
 {
 //	DEFINE_FIELD( CEgon, m_pBeam, FIELD_CLASSPTR ),
@@ -1633,6 +1634,7 @@ TYPEDESCRIPTION	CEgon::m_SaveData[] =
 	DEFINE_FIELD( CEgon, m_flAmmoUseTime, FIELD_TIME ),
 };
 IMPLEMENT_SAVERESTORE( CEgon, CBasePlayerWeapon );
+*/
 
 TYPEDESCRIPTION	CSatchel::m_SaveData[] = 
 {
