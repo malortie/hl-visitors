@@ -35,7 +35,7 @@ int CSniper::GetItemInfo(ItemInfo *p)
 {
 	p->pszName = STRING(pev->classname);
 	p->pszAmmo1 = "357";
-	p->iMaxAmmo1 = _357_MAX_CARRY;
+	p->iMaxAmmo1 = SNIPER_MAX_CARRY;
 	p->pszAmmo2 = NULL;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = SNIPER_MAX_CLIP;
@@ -43,7 +43,7 @@ int CSniper::GetItemInfo(ItemInfo *p)
 	p->iSlot = 3;
 	p->iPosition = 1;
 	p->iId = m_iId = WEAPON_SNIPER;
-	p->iWeight = PYTHON_WEIGHT;
+	p->iWeight = SNIPER_WEIGHT;
 
 	return 1;
 }
