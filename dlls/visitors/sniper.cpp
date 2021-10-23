@@ -40,8 +40,8 @@ int CSniper::GetItemInfo(ItemInfo *p)
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = CROSSBOW_MAX_CLIP;
 	p->iFlags = 0;
-	p->iSlot = 2;
-	p->iPosition = 3;
+	p->iSlot = 3;
+	p->iPosition = 1;
 	p->iId = m_iId = WEAPON_SNIPER;
 	p->iWeight = PYTHON_WEIGHT;
 
