@@ -320,7 +320,7 @@ void W_Precache(void)
 	UTIL_PrecacheOther( "item_battery" );
 	UTIL_PrecacheOther( "item_antidote" );
 	UTIL_PrecacheOther( "item_security" );
-	UTIL_PrecacheOther( "item_longjump" );
+//	UTIL_PrecacheOther( "item_longjump" );
 
 	// shotgun
 	UTIL_PrecacheOtherWeapon( "weapon_shotgun" );

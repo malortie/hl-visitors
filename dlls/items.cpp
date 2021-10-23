@@ -300,6 +300,7 @@ class CItemSecurity : public CItem
 
 LINK_ENTITY_TO_CLASS(item_security, CItemSecurity);
 
+/*
 class CItemLongJump : public CItem
 {
 	void Spawn( void )
@@ -337,3 +338,4 @@ class CItemLongJump : public CItem
 };
 
 LINK_ENTITY_TO_CLASS( item_longjump, CItemLongJump );
+*/
