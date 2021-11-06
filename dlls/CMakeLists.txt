@@ -50,6 +50,7 @@ set(LINK_OPTS_RELEASE
 # Include directories
 set(INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/visitors
   ${ENGINE_DIR}
   ${COMMON_DIR}
   ${PM_SHARED_DIR}
@@ -76,6 +77,7 @@ set(HEADER_FILES
   flyingmonster.h
   func_break.h
   gamerules.h
+  hgrunt.h
   hornet.h
   items.h
   monsterevent.h
@@ -131,7 +133,7 @@ set(SOURCE_FILES
   defaultai.cpp
   doors.cpp
   effects.cpp
-  egon.cpp
+#  egon.cpp
   explode.cpp
   flyingmonster.cpp
   func_break.cpp
@@ -208,6 +210,11 @@ set(SOURCE_FILES
   xen.cpp
   zombie.cpp
   ${GAME_SHARED_DIR}/voice_gamemgr.cpp
+  visitors/flashlight.cpp
+  visitors/kevlar.cpp
+  visitors/massn.cpp
+  visitors/pipe.cpp
+  visitors/sniper.cpp
 )
 
 set(PM_SHARED_SOURCE_FILES
