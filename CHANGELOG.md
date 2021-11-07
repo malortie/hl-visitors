@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [visitors/1.0.2] - 2021-10-23
+## [1.0.1] - 2021-11-07
 
 ### Added
 
@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Hardcoded Python reload sound
 - Entity ammo_egonclip
 - Entity ammo_sniper
 - Entity item_longjump
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Missing zoom variable in sniper save/restore array
 - Missing sniper reload sound
 - Sniper using wrong weapon slot
 - Wrong sniper max clip value
@@ -37,21 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use UTIL_WeaponTimeBase for next idle time in CSniper
 - Pipe not casting hit decal
 
-## [visitors/1.0.1] - 2021-04-10
-
-### Added
-
-- Visual Studio 2019 project files
-
-### Removed
-
-- Hardcoded Python reload sound
-
-### Fixed
-
-- Missing zoom variable in sniper save/restore array
-
-## [visitors/1.0.0] - 2015-12-03
+## [1.0.0] - 2015-12-03
 
 ### Added
 
